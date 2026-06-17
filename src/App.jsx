@@ -6,6 +6,7 @@ import { useGSAP } from "@gsap/react"
 import Hero from "./components/Hero"
 import { Agentation } from "agentation"
 import Cocktails from "./components/Cocktails"
+import About from "./components/About"
 
 gsap.registerPlugin(SplitText, ScrollTrigger);
 
@@ -16,6 +17,7 @@ const App = () =>{
         <Navbar />
         <Hero />
         <Cocktails />
+        <About/>
         {import.meta.env.DEV && <Agentation />}
     </main>
   )
