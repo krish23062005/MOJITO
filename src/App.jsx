@@ -1,13 +1,22 @@
 import { ScrollTrigger, SplitText } from "gsap/all"
 import { gsap } from "gsap"
+import Navbar from "./components/Navbar"
+import { navLinks } from "../constants"
+import { useGSAP } from "@gsap/react"
+import Hero from "./components/Hero"
+import { Agentation } from "agentation"
 
-gsap.registerPlugin(SplitText, ScrollTrigger)
+gsap.registerPlugin(SplitText, ScrollTrigger);
 
-const App = () => {
+
+const App = () =>{
   return (
-    <div className="flex-center h-[100vh]">
-      <h1 className="text-3xl text-indigo-300">hello</h1>
-    </div>
+    <main>
+        <Navbar />
+        <Hero />
+        <div className="h-dvh bg-black"/>
+        {import.meta.env.DEV && <Agentation />}
+    </main>
   )
 }
 
