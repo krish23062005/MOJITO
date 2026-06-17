@@ -1,46 +1,101 @@
 import { useGSAP } from "@gsap/react";
 import { SplitText } from "gsap/all";
 import gsap from "gsap";
+import { useRef } from "react";
+import { useMediaQuery } from "react-responsive";
 
 const Hero = () => {
-    useGSAP(() =>{
-        const heroSplit = new SplitText('.title',{type:'chars, words'})
-        const paragraphSplit = new SplitText('.subtitle',{type:'lines'})
+  const videoRef = useRef();
 
-        heroSplit.chars.forEach((char) =>char.classList.add('text-gradient'));
+  const isMobile = useMediaQuery({ maxWidth: 768 });
 
-        gsap.from(heroSplit.chars,{
-            opacity:0,
-            yPercent:100,
-            duration:1.8,
-            ease:'expo.out',
-            stagger:0.05
-        },[])  
+  useGSAP(() => {
+    const heroSplit = new SplitText(".title", { type: "chars, words" });
+    const paragraphSplit = new SplitText(".subtitle", { type: "lines" });
 
-        gsap.from(paragraphSplit.lines,{
-            opacity:0,
-            yPercent:100,
-            duration:1.8,
-            delay:1,
-            ease:'expo.out',
-            stagger:0.05,
-            scrollTrigger:{
-                trigger:'.subtitle',
-                start:'top 80%',
-                toggleActions:'play none none none',
-            }
-        })
+    heroSplit.chars.forEach((char) => char.classList.add("text-gradient"));
 
-        gsap.timeline({
-            scrollTrigger:{
-                trigger:'#hero',
-                start:'top top',
-                end:'bottom top',
-                scrub:1,
-            }
-        }).to('.right-leaf',{y:200,},0)
-          .to('.left-leaf',{y:-200,},0)
-    },[]);
+    gsap.from(
+      heroSplit.chars,
+      {
+        opacity: 0,
+        yPercent: 100,
+        duration: 1.8,
+        ease: "expo.out",
+        stagger: 0.05,
+      },
+      [],
+    );
+
+    gsap.from(paragraphSplit.lines, {
+      opacity: 0,
+      yPercent: 100,
+      duration: 1.8,
+      delay: 1,
+      ease: "expo.out",
+      stagger: 0.05,
+      scrollTrigger: {
+        trigger: ".subtitle",
+        start: "top 80%",
+        toggleActions: "play none none none",
+      },
+    });
+
+    gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: "#hero",
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+        },
+      })
+      .to(".right-leaf", { y: 200 }, 0)
+      .to(".left-leaf", { y: -200 }, 0);
+
+      const startValue = isMobile ? 'top 50%' : 'center 60%';
+      const endValue = isMobile ? '120% top' : 'bottom top';
+
+    //   const video = videoRef.current;
+    //   if (video) {
+    //     const setVideoTimeline = () => {
+    //       gsap.timeline({
+    //         scrollTrigger: {
+    //           trigger: video,
+    //           start: startValue,
+    //           end: endValue,
+    //           scrub: true,
+    //           pin:true
+    //         }
+    //       }).fromTo(video, 
+    //         { currentTime: 0 }, 
+    //         { currentTime: video.duration || 5, ease: "none" }
+    //       );
+    //     };
+
+    //     if (video.readyState >= 1) {
+    //       setVideoTimeline();
+    //     } else {
+    //       video.addEventListener("loadedmetadata", setVideoTimeline);
+    //     }
+    //   }
+
+    const tl = gsap.timeline({
+        scrollTrigger:{
+            trigger: 'video',
+            start: startValue,
+            end: endValue,
+            scrub: true,
+            pin: true,
+        }
+    })
+
+    videoRef.current.onloadedmetadata = () => {
+      tl.to(videoRef.current,{
+        currentTime:videoRef.current.duration
+      })
+    }
+  }, []);
   return (
     <>
       <section id="hero" className="noisy relative">
@@ -66,12 +121,26 @@ const Hero = () => {
               </p>
             </div>
             <div className="view-cocktails">
-              <p className="subtitle">Every cocktail on our menu is a blend of premium ingredients, creative flair, and timeless recipes <br /> - designed to delight your senses.</p>
+              <p className="subtitle">
+                Every cocktail on our menu is a blend of premium ingredients,
+                creative flair, and timeless recipes <br /> - designed to
+                delight your senses.
+              </p>
               <a href="#cocktails">View Cocktails</a>
             </div>
           </div>
         </div>
       </section>
+
+      <div className="video absolute inset-0">
+        <video
+          ref={videoRef}
+          src="/videos/output.mp4"
+          muted
+          playsInline
+          preload="auto"
+        />
+      </div>
     </>
   );
 };
