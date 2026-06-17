@@ -56,45 +56,31 @@ const Hero = () => {
       const startValue = isMobile ? 'top 50%' : 'center 60%';
       const endValue = isMobile ? '120% top' : 'bottom top';
 
-    //   const video = videoRef.current;
-    //   if (video) {
-    //     const setVideoTimeline = () => {
-    //       gsap.timeline({
-    //         scrollTrigger: {
-    //           trigger: video,
-    //           start: startValue,
-    //           end: endValue,
-    //           scrub: true,
-    //           pin:true
-    //         }
-    //       }).fromTo(video, 
-    //         { currentTime: 0 }, 
-    //         { currentTime: video.duration || 5, ease: "none" }
-    //       );
-    //     };
-
-    //     if (video.readyState >= 1) {
-    //       setVideoTimeline();
-    //     } else {
-    //       video.addEventListener("loadedmetadata", setVideoTimeline);
-    //     }
-    //   }
-
-    const tl = gsap.timeline({
-        scrollTrigger:{
-            trigger: 'video',
+      const video = videoRef.current;
+      if (video) {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: video,
             start: startValue,
             end: endValue,
             scrub: true,
             pin: true,
-        }
-    })
+          }
+        });
 
-    videoRef.current.onloadedmetadata = () => {
-      tl.to(videoRef.current,{
-        currentTime:videoRef.current.duration
-      })
-    }
+        const setVideoTimeline = () => {
+          tl.to(video, {
+            currentTime: video.duration || 5,
+            ease: "none"
+          });
+        };
+
+        if (video.readyState >= 1) {
+          setVideoTimeline();
+        } else {
+          video.onloadedmetadata = setVideoTimeline;
+        }
+      }
   }, []);
   return (
     <>
