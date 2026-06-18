@@ -89,7 +89,7 @@ body {
     }
 
     .noisy {
-        @apply absolute inset-0 size-full bg-[url("/images/noise.png")];
+        @apply fixed inset-0 size-full bg-[url("/images/noise.png")] pointer-events-none z-50 opacity-20;
     }
 
     #hero {
@@ -347,7 +347,7 @@ body {
     }
 
     #contact {
-        @apply relative md:mt-20 mt-0 px-4 text-center w-full overflow-hidden radial-gradient;
+        @apply relative px-4 text-center w-full overflow-hidden radial-gradient min-h-dvh flex flex-col justify-center;
 
         #f-left-leaf {
             @apply absolute bottom-0 left-0 pointer-events-none lg:w-fit w-1/3;
@@ -358,7 +358,7 @@ body {
         }
 
         .content {
-            @apply container mx-auto lg:py-14 2xl:py-32 py-16 flex flex-col justify-between gap-10 min-h-dvh;
+            @apply relative z-10 container mx-auto py-16 flex flex-col justify-center items-center gap-10 lg:gap-16;
 
             h2 {
                 @apply lg:text-6xl 2xl:text-8xl text-5xl font-modern-negra md:translate-y-0 translate-y-5;
@@ -369,12 +369,12 @@ body {
             }
 
             p {
-                @apply lg:text-2xl 2xl:text-3xl text-sm;
+                @apply lg:text-xl 2xl:text-2xl text-sm;
             }
         }
 
         .drink-img {
-            @apply absolute bottom-0 right-0 lg:w-96 w-1/3 pointer-events-none;
+            @apply absolute bottom-0 right-0 lg:w-80 w-1/4 pointer-events-none;
         }
     }
 }

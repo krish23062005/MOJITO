@@ -84,7 +84,7 @@ const Hero = () => {
   }, []);
   return (
     <>
-      <section id="hero" className="noisy relative">
+      <section id="hero" className="relative">
         <h1 className="title">MOJITO</h1>
 
         <img
